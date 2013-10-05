@@ -1,0 +1,21 @@
+{
+  "name": "hexo-maxcdn-plugin",
+  "version": "0.0.0",
+  "description": "MaxCDNify your Hexo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@bitbucket.org/jmervine/hexo-maxcdn-plugin.git"
+  },
+  "keywords": [
+    "cdn",
+    "hexo",
+    "maxcdn",
+    "netdna"
+  ],
+  "author": "Joshua Mervine <joshua@mervine.net> (http://www.maxcdn.com/)",
+  "license": "BSD-2-Clause"
+}
