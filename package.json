@@ -17,5 +17,8 @@
     "netdna"
   ],
   "author": "Joshua Mervine <joshua@mervine.net> (http://www.maxcdn.com/)",
-  "license": "BSD-2-Clause"
+  "license": "MIT",
+  "dependencies": {
+    "js-yaml": "~2.1.1"
+  }
 }
