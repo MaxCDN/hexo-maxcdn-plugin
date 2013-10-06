@@ -6,34 +6,35 @@
 // * Author: [@mervinej](https://twitter.com/#!/mervinej)
 // * Source:
 require('js-yaml');
-var maxcdn = require('_maxcdn.yml');
+var maxcdn = require('./_maxcdn.yml');
 
 /*
  * HELPER METHODS
  */
+var started;
 function processStarted() {
-    try {
-        return new Date(new Date()-(process.uptime()*1000)).getTime();
-    } catch(e) {
-        console.trace(e);
-        return false;
-    }
+    started = started || Math.floor((new Date())-(process.uptime()*1000)).toString();
+    return started;
 }
 
 function throwError(msg) {
-    throw new Error('hexo-maxcdn-plugin: ' +  msg);
+    throw new Error('hexo-maxcdn-plugin - ' +  msg);
 }
 
 var fetch = {
     version: function() {
-        return '?' + (maxcdn.cachebuster || processStarted() || new Date().getTime());
+        // TODO: Wouldn't be nice to use a git sha?
+        return '?' + (maxcdn.cachebuster || processStarted());
     },
     source:  function() {
         if (!maxcdn.domain) {
             throwError('_maxcdn.yml must contain a cdn domain');
         }
         var domain = maxcdn.domain;
-        domain.replace('https://', '').replace('http://', '');
+        domain.replace(/^https:\/\//, '')
+              .replace(/^http:\/\//, '')
+              .replace(/\/$/, '');
+
         return '//'+domain;
     }
 };
@@ -61,7 +62,7 @@ function attributesFrom(options) {
 
         attrs.push(escape(name)+'=\''+escape(options[name])+'\'');
     });
-    return attrs.sort.join(' ');
+    return attrs.sort().join(' ');
 }
 
 /*
@@ -80,8 +81,9 @@ function maxcdnify(path, attrs) {
         switch (path.match(/\.[a-z]+$/)[0]) {
             // link tag
             case '.css':
-            case '.ico':
                 attrs.rel = attrs.rel || 'stylesheet';
+            case '.ico':
+                attrs.rel = attrs.rel || 'icon';
                 attrs.href = src + path + version;
                 return '<link ' + attributesFrom(attrs) + '/>';
 
@@ -101,9 +103,9 @@ function maxcdnify(path, attrs) {
                 return '<img ' + attributesFrom(attrs) + ' />';
 
             // embed
-            case '.pdf':
             case '.svg':
-            case '.swf':
+                attrs.type = attrs.type || 'image/svg+xml';
+            case '.pdf':
                 attrs.src = src + path + version;
                 return '<embed ' + attributesFrom(attrs) + '></embed>';
 
@@ -123,5 +125,16 @@ function maxcdnify(path, attrs) {
  */
 if (typeof hexo !== 'undefined') {
     hexo.extend.helper.register('maxcdn', maxcdnify);
+} else {
+    // for units
+    module.exports = {
+        maxcdn: maxcdn,
+        processStarted: processStarted,
+        throwError: throwError,
+        fetch: fetch,
+        escape: escape,
+        attributesFrom: attributesFrom,
+        maxcdnify: maxcdnify
+    };
 }
 
