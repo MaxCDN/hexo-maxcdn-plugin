@@ -30,6 +30,9 @@ var fetch = {
         if (!maxcdn.domain) {
             throwError('_maxcdn.yml must contain a cdn domain');
         }
+        if (maxcdn.enabled !== true && !maxcdn.enabled.join(' ').match(process.env.NODE_ENV)) {
+            return '';
+        }
         var domain = maxcdn.domain;
         domain.replace(/^https:\/\//, '')
               .replace(/^http:\/\//, '')

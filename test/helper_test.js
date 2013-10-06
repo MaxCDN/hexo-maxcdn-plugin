@@ -1,6 +1,9 @@
 var assert = require('assert');
-
 var plugin = require('../index.js');
+
+// setup test env
+process.env.NODE_ENV = 'test';
+plugin.maxcdn.enabled.push('test');
 
 describe('maxcdn-plugin', function () {
     describe('helper methods', function () {
@@ -168,5 +171,47 @@ describe('maxcdn-plugin', function () {
             assert(plugin.maxcdnify('/foo.css', { foo: 'bar' }).match("foo='bar'"));
             done();
         });
+    });
+    describe('config', function () {
+        describe('domain', function () {
+            it('includes domain', function (done) {
+                assert(plugin.maxcdnify('/foo.css').match(plugin.maxcdn.domain));
+                done();
+            });
+        });
+
+        describe('enabled', function () {
+            it('accepts true', function (done) {
+                // adjust env and config
+                process.env.NODE_ENV = 'disabled_env';
+                var enabled = plugin.maxcdn.enabled;
+                plugin.maxcdn.enabled = true;
+
+                assert(plugin.maxcdnify('/foo.css').match(plugin.maxcdn.domain));
+
+                // reset env and config
+                process.env.NODE_ENV = 'test';
+                plugin.maxcdn.enabled = enabled;
+                done();
+            });
+            it('disables', function (done) {
+                // adjust env and config
+                process.env.NODE_ENV = 'disabled_env';
+
+                assert(!plugin.maxcdnify('/foo.css').match(plugin.maxcdn.domain));
+
+                // reset env and config
+                process.env.NODE_ENV = 'test';
+                done();
+            });
+        });
+
+        describe('cachebuster', function () {
+            it('includes cachebuster', function (done) {
+                assert(plugin.maxcdnify('/foo.css').match(plugin.maxcdn.cachebuster));
+                done();
+            });
+        });
+
     });
 });

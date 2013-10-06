@@ -4,6 +4,14 @@
 
 Currently expected to be in working state. Tests have passed, but hasn't been tested with Hexo.
 
+### Configuration
+
+See file `_maxcdn.yml`
+
+* `domain`: Your MaxCDN domain.
+* `enabled`: Accepts either an array of NODE_ENV strings, or boolean true for all environments.
+* `cachebuster`: [optional] custom cachebuster. Will you datestamp of process execution time if not provided.
+
 ### Basic Usage
 
 ``` javascript
@@ -58,7 +66,6 @@ js    adds   type=text/javascript
 svg   adds   type=image/svg+xml
 ```
 
-
 ### Test Output
 
 > Including test output until further documented.
@@ -107,6 +114,15 @@ svg   adds   type=image/svg+xml
       + js includes type=text/javascript by default
       + svg includes type=image/svg+xml by default
       + includes customs attrs
+    config
+      domain
+        + includes domain
+      enabled
+        + accepts true
+        + disables
+      cachebuster
+        + includes cachebuster
 
-  34 passing (544ms)
+
+  38 passing (541ms)
 ```
