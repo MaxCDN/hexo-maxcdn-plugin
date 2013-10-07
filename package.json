@@ -2,7 +2,7 @@
   "name": "hexo-maxcdn-plugin",
   "version": "0.0.0",
   "description": "MaxCDNify your Hexo",
-  "main": "index.js",
+  "main": "index",
   "scripts": {
     "test": "mocha -s 600 -R spec test/*_test.js"
   },
@@ -16,6 +16,9 @@
     "maxcdn",
     "netdna"
   ],
+  "engines": {
+    "hexo": "*"
+  },
   "author": "Joshua Mervine <joshua@mervine.net> (http://www.maxcdn.com/)",
   "license": "MIT",
   "dependencies": {

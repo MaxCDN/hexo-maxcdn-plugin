@@ -1,16 +1,16 @@
 var assert = require('assert');
-var plugin = require('../index.js');
+var maxcdn = require('../maxcdn.js');
 
 // setup test env
 process.env.NODE_ENV = 'test';
-plugin.maxcdn.enabled.push('test');
+maxcdn.config.enabled.push('test');
 
-describe('maxcdn-plugin', function () {
+describe('maxcdn-maxcdn', function () {
     describe('helper methods', function () {
         describe('processStarted', function () {
             var result;
             before(function(done) {
-                result = plugin.processStarted();
+                result = maxcdn.processStarted();
                 done();
             });
             it('is a string', function (done) {
@@ -26,12 +26,12 @@ describe('maxcdn-plugin', function () {
                 done();
             });
             it('is always the same', function (done) {
-                assert.equal(result, plugin.processStarted());
+                assert.equal(result, maxcdn.processStarted());
                 // Why setTimeout:
                 // 500 ms makes all the difference when using Math.floor with
                 // time.
                 setTimeout(function() {
-                    assert.equal(result, plugin.processStarted());
+                    assert.equal(result, maxcdn.processStarted());
                     done();
                 }, 500);
                 // NOTE: This test will display yellow because mocha thinks
@@ -41,36 +41,36 @@ describe('maxcdn-plugin', function () {
         describe('throwError', function () {
             it('throws an error containing message', function (done) {
                 assert.throws(function () {
-                    plugin.throwError('test message');
+                    maxcdn.throwError('test message');
                 }, /^Error: hexo-maxcdn-plugin - test message$/);
                 done();
             });
         });
         describe('fetch.version', function () {
             it('pulls from config first', function (done) {
-                assert.equal(plugin.fetch.version(), '?cachebuster');
+                assert.equal(maxcdn.fetch.version(), '?cachebuster');
                 done();
             });
             it('pulls from processStarted seconds', function (done) {
-                var cachebuster = plugin.maxcdn.cachebuster;
-                plugin.maxcdn.cachebuster = undefined;
-                assert.equal(plugin.fetch.version(), '?'+plugin.processStarted());
-                plugin.maxcdn.cachebuster = cachebuster;
+                var cachebuster = maxcdn.config.cachebuster;
+                maxcdn.config.cachebuster = undefined;
+                assert.equal(maxcdn.fetch.version(), '?'+maxcdn.processStarted());
+                maxcdn.config.cachebuster = cachebuster;
                 done();
             });
         });
         describe('fetch.source', function () {
             it('pulls from config', function (done) {
-                assert.equal(plugin.fetch.source(), '//you.maxcdn.com');
+                assert.equal(maxcdn.fetch.source(), '//you.maxcdn.com');
                 done();
             });
             it('throws error if config is undefined', function (done) {
-                var domain = plugin.maxcdn.domain;
-                plugin.maxcdn.domain = undefined;
+                var domain = maxcdn.config.domain;
+                maxcdn.config.domain = undefined;
                 assert.throws(function () {
-                    plugin.fetch.source();
+                    maxcdn.fetch.source();
                 }, Error);
-                plugin.maxcdn.domain = domain;
+                maxcdn.config.domain = domain;
                 done();
             });
         });
@@ -83,7 +83,7 @@ describe('maxcdn-plugin', function () {
             };
             Object.keys(escapes).forEach(function(char) {
                 it('escapes '+char, function(done) {
-                    assert(plugin.escape('...'+char+'...').match(escapes[char]));
+                    assert(maxcdn.escape('...'+char+'...').match(escapes[char]));
                     done();
                 });
             });
@@ -91,35 +91,35 @@ describe('maxcdn-plugin', function () {
         describe('attributesFrom', function () {
             it('creates attributes', function (done) {
                 assert.equal(
-                    plugin.attributesFrom({ foo: "bar", bar: "foo" }),
+                    maxcdn.attributesFrom({ foo: "bar", bar: "foo" }),
                     "bar='foo' foo='bar'"
                 );
                 done();
             });
             it('turns false in to false string', function (done) {
                 assert.equal(
-                    plugin.attributesFrom({ foo: false, bar: "foo" }),
+                    maxcdn.attributesFrom({ foo: false, bar: "foo" }),
                     "bar='foo' foo='false'"
                 );
                 done();
             });
             it('allows for empty attributes using null', function (done) {
                 assert.equal(
-                    plugin.attributesFrom({ foo: null, bar: "foo" }),
+                    maxcdn.attributesFrom({ foo: null, bar: "foo" }),
                     "bar='foo' foo=''"
                 );
                 done();
             });
             it('allows for empty attributes using undefined', function (done) {
                 assert.equal(
-                    plugin.attributesFrom({ foo: undefined, bar: "foo" }),
+                    maxcdn.attributesFrom({ foo: undefined, bar: "foo" }),
                     "bar='foo' foo=''"
                 );
                 done();
             });
             it('allows for empty attributes using an empty string', function (done) {
                 assert.equal(
-                    plugin.attributesFrom({ foo: '', bar: "foo" }),
+                    maxcdn.attributesFrom({ foo: '', bar: "foo" }),
                     "bar='foo' foo=''"
                 );
                 done();
@@ -130,7 +130,7 @@ describe('maxcdn-plugin', function () {
     describe('maxcdnify', function () {
         it('throws error on unkown ext', function(done) {
             assert.throws(function() {
-                plugin.maxcdnify('/foo.bad');
+                maxcdn.maxcdnify('/foo.bad');
             }, Error);
             done();
         });
@@ -145,37 +145,37 @@ describe('maxcdn-plugin', function () {
         Object.keys(tags).forEach(function(tag) {
             tags[tag].forEach(function(ext) {
                 it(ext+' yields '+tag+' tag', function(done) {
-                    assert(plugin.maxcdnify('/foo'+ext).match(tag));
+                    assert(maxcdn.maxcdnify('/foo'+ext).match(tag));
                     done();
                 });
             });
         });
 
         it('css includes rel=stylesheet by default', function (done) {
-            assert(plugin.maxcdnify('/foo.css').match("rel='stylesheet'"));
+            assert(maxcdn.maxcdnify('/foo.css').match("rel='stylesheet'"));
             done();
         });
         it('ico includes rel=icon by default', function (done) {
-            assert(plugin.maxcdnify('/foo.ico').match("rel='icon'"));
+            assert(maxcdn.maxcdnify('/foo.ico').match("rel='icon'"));
             done();
         });
         it('js includes type=text/javascript by default', function (done) {
-            assert(plugin.maxcdnify('/foo.js').match("type='text/javascript'"));
+            assert(maxcdn.maxcdnify('/foo.js').match("type='text/javascript'"));
             done();
         });
         it('svg includes type=image/svg+xml by default', function (done) {
-            assert(plugin.maxcdnify('/foo.svg').match(/type=\'image\/svg\+xml\'/));
+            assert(maxcdn.maxcdnify('/foo.svg').match(/type=\'image\/svg\+xml\'/));
             done();
         });
         it('includes customs attrs', function (done) {
-            assert(plugin.maxcdnify('/foo.css', { foo: 'bar' }).match("foo='bar'"));
+            assert(maxcdn.maxcdnify('/foo.css', { foo: 'bar' }).match("foo='bar'"));
             done();
         });
     });
     describe('config', function () {
         describe('domain', function () {
             it('includes domain', function (done) {
-                assert(plugin.maxcdnify('/foo.css').match(plugin.maxcdn.domain));
+                assert(maxcdn.maxcdnify('/foo.css').match(maxcdn.config.domain));
                 done();
             });
         });
@@ -184,21 +184,21 @@ describe('maxcdn-plugin', function () {
             it('accepts true', function (done) {
                 // adjust env and config
                 process.env.NODE_ENV = 'disabled_env';
-                var enabled = plugin.maxcdn.enabled;
-                plugin.maxcdn.enabled = true;
+                var enabled = maxcdn.config.enabled;
+                maxcdn.config.enabled = true;
 
-                assert(plugin.maxcdnify('/foo.css').match(plugin.maxcdn.domain));
+                assert(maxcdn.maxcdnify('/foo.css').match(maxcdn.config.domain));
 
                 // reset env and config
                 process.env.NODE_ENV = 'test';
-                plugin.maxcdn.enabled = enabled;
+                maxcdn.config.enabled = enabled;
                 done();
             });
             it('disables', function (done) {
                 // adjust env and config
                 process.env.NODE_ENV = 'disabled_env';
 
-                assert(!plugin.maxcdnify('/foo.css').match(plugin.maxcdn.domain));
+                assert(!maxcdn.maxcdnify('/foo.css').match(maxcdn.config.domain));
 
                 // reset env and config
                 process.env.NODE_ENV = 'test';
@@ -208,7 +208,7 @@ describe('maxcdn-plugin', function () {
 
         describe('cachebuster', function () {
             it('includes cachebuster', function (done) {
-                assert(plugin.maxcdnify('/foo.css').match(plugin.maxcdn.cachebuster));
+                assert(maxcdn.maxcdnify('/foo.css').match(maxcdn.config.cachebuster));
                 done();
             });
         });
