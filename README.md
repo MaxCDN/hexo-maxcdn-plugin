@@ -35,7 +35,7 @@ maxcdn(path, attributes);
 Outputs:
 ``` html
 <div class="image_div">
-    <img src="//you.maxcdn.com/path/to/image.gif" height='100px' style="border:1px;" width="100px" />
+    <img src='//you.maxcdn.com/path/to/image.gif' height='100px' style='border:1px;' width='100px' />
 </div>
 ```
 > Note: Attributes will be sorted by name.
@@ -49,7 +49,7 @@ Outputs:
 
 Outputs:
 ``` html
-<img src="//you.maxcdn.com/path/to/image.gif" height='100px' style="border:1px;" width="100px" />
+<img src='//you.maxcdn.com/path/to/image.gif' height='100px' style='border:1px;' width='100px' />
 ```
 
 Supported extensions:
