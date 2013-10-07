@@ -45,6 +45,9 @@ cp -v $WORKING_DIR/test/support/after_footer.ejs themes/light/layout/_partial/
 subheader "Copying test post"
 cp -v $WORKING_DIR/test/support/hello-world.md source/_posts/
 
+subheader "Copying test configuration."
+cp -v $WORKING_DIR/test/support/_maxcdn.yml .
+
 subheader "Running hexo generate."
 ../node_modules/.bin/hexo generate --debug
 

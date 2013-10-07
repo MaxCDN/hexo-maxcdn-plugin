@@ -11,7 +11,7 @@ cd blog
 # this is it
 npm install --save hexo-maxcdn-plugin
 
-# update _maxcdn.yml with you domain, see Configuration below
+# Create _maxcdn.yml with you domain, see Configuration below.
 ```
 
 ### Configuration

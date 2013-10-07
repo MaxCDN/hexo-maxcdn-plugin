@@ -7,12 +7,6 @@
 
 var maxcdn = require('./maxcdn.js');
 
-hexo.extend.generator.register(function(_, _, callback) {
-    require('fs').writeFileSync('_maxcdn.yml',
-        'domain: you.maxcdn.com\nenabled:\n- production\n- stage\n# cachebuster: your_buster\n');
-    callback();
-});
-
 hexo.extend.helper.register('maxcdn', maxcdn.maxcdnify);
 
 hexo.extend.tag.register('maxcdn', function (args) {

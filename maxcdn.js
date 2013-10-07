@@ -5,12 +5,12 @@
 // * Author: [@mervinej](https://twitter.com/#!/mervinej)
 // * Source:
 require('js-yaml');
+var path = require('path');
 var write = require('fs').appendFileSync;
-var config;
 try {
-    config = require('./_maxcdn.yml');
+    var config = require(path.resolve(process.cwd(), '_maxcdn.yml'));
 } catch (e) {
-    console.trace(e);
+    throwError('_maxcdn.yml could not be loaded');
 }
 
 /*
@@ -77,7 +77,7 @@ function attributesFrom(options) {
 /*
  * CORE METHODS
  */
-function maxcdnify(path, attrs) {
+function maxcdnify(file, attrs) {
     var src     = fetch.source();
     var version = fetch.version();
 
@@ -87,19 +87,19 @@ function maxcdnify(path, attrs) {
     // - alt
     attrs = attrs || {};
     try {
-        switch (path.match(/\.[a-z]+$/)[0]) {
+        switch (file.match(/\.[a-z]+$/)[0]) {
             // link tag
             case '.css':
                 attrs.rel = attrs.rel || 'stylesheet';
             case '.ico':
                 attrs.rel = attrs.rel || 'icon';
-                attrs.href = src + path + version;
+                attrs.href = src + file + version;
                 return '<link ' + attributesFrom(attrs) + '/>';
 
             // script tag
             case '.js':
                 attrs.type = attrs.type || 'text/javascript';
-                attrs.src = src + path + version;
+                attrs.src = src + file + version;
                 return '<script ' + attributesFrom(attrs) + '></script>';
 
             // image tag
@@ -108,14 +108,14 @@ function maxcdnify(path, attrs) {
             case '.jpg':
             case '.jpeg':
             case '.png':
-                attrs.src = src + path + version;
+                attrs.src = src + file + version;
                 return '<img ' + attributesFrom(attrs) + ' />';
 
             // embed
             case '.svg':
                 attrs.type = attrs.type || 'image/svg+xml';
             case '.pdf':
-                attrs.src = src + path + version;
+                attrs.src = src + file + version;
                 return '<embed ' + attributesFrom(attrs) + '></embed>';
 
             default:
