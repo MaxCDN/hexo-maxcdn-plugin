@@ -1,10 +1,11 @@
 {
   "name": "hexo-maxcdn-plugin",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "MaxCDNify your Hexo",
   "main": "index",
   "scripts": {
-    "test": "mocha -s 600 -R spec test/*_test.js"
+    "test": "mocha -s 600 -R spec test/*_test.js",
+    "integration": "bash ./test/integration.sh"
   },
   "repository": {
     "type": "git",

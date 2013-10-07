@@ -5,7 +5,13 @@
 // * Author: [@mervinej](https://twitter.com/#!/mervinej)
 // * Source:
 require('js-yaml');
-var config = require('./_maxcdn.yml');
+var write = require('fs').appendFileSync;
+var config;
+try {
+    config = require('./_maxcdn.yml');
+} catch (e) {
+    console.trace(e);
+}
 
 /*
  * HELPER METHODS
@@ -17,6 +23,7 @@ function processStarted() {
 }
 
 function throwError(msg) {
+    write('/tmp/hexo-maxcdn.error', 'Error: hexo-maxcdn-plugin - '+msg);
     throw new Error('hexo-maxcdn-plugin - ' +  msg);
 }
 

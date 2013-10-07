@@ -5,4 +5,4 @@
 
 // * Author: [@mervinej](https://twitter.com/#!/mervinej)
 
-extend.helper.register('maxcdn', require('maxcdn.js').maxcdnify);
+hexo.extend.helper.register('maxcdn', require('./maxcdn.js').maxcdnify);

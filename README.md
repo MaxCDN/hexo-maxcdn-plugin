@@ -121,8 +121,22 @@ svg   adds   type=image/svg+xml
         + accepts true
         + disables
       cachebuster
-        + includes cachebuster
+         includes cachebuster
 
 
   38 passing (541ms)
+```
+
+### Development
+
+##### Running Units
+
+```
+npm test
+```
+
+##### Running Integration
+
+```
+npm run integration
 ```
