@@ -1,8 +1,18 @@
 # hexo-maxcdn-plugin
 
-### Status
+### Install
 
-Currently expected to be in working state. Tests have passed, but hasn't been tested with Hexo.
+```
+# from hexo docs
+npm install -g hexo
+hexo init blog
+cd blog
+
+# this is it
+npm install --save hexo-maxcdn-plugin
+
+# update _maxcdn.yml with you domain, see Configuration below
+```
 
 ### Configuration
 
