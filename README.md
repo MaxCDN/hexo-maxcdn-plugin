@@ -24,18 +24,19 @@ See file `_maxcdn.yml`
 
 ### Basic Usage
 
-``` javascript
-// path: string
-// attributes: object [optional]
-maxcdn(path, attributes);
-```
+#### Helper Example (in template):
 
-##### Helper Example (in template):
-
+##### jade
 ``` jade
+/**
+ * path: string
+ * attributes: object [optional]
+ */
+
 .image_div= maxcdn('/path/to/image.gif', { width: '100px', height: '100px', style: 'border:1px;' })
 ```
 
+##### ejs
 ``` ejs
 <div class="image_div">
     <%- maxcdn('/path/to/image.gif', { width: '100px', height: '100px', style: 'border:1px;' }) %>
@@ -50,19 +51,23 @@ Outputs:
 ```
 > Note: Attributes will be sorted by name.
 
-##### Tag Example (in posts):
+#### Tag Example (in posts):
 
 ```
+<!--
+ path: string
+ attributes: string seperated by spaces [optional]
+-->
+
 {% maxcdn /path/to/image.gif width=100px height=100px style='border:1px' %}
 ```
-> Note: no quotes on path.
 
 Outputs:
 ``` html
 <img src='//you.maxcdn.com/path/to/image.gif' height='100px' style='border:1px;' width='100px' />
 ```
 
-Supported extensions:
+#### Supported extensions:
 ``` text
 .css    yields   link
 .ico    yields   link
@@ -79,7 +84,7 @@ Supported extensions:
 .svg    yields   embed
 ```
 
-Default attributes:
+#### Default attributes:
 ``` text
 css   adds   rel=stylesheet
 ico   adds   rel=icon
