@@ -20,7 +20,7 @@ See file `_maxcdn.yml`
 maxcdn(path, attributes);
 ```
 
-Example:
+##### Helper Example (in template):
 
 ``` jade
 .image_div= maxcdn('/path/to/image.gif', { width: '100px', height: '100px', style: 'border:1px;' })
@@ -38,8 +38,19 @@ Outputs:
     <img src="//you.maxcdn.com/path/to/image.gif" height='100px' style="border:1px;" width="100px" />
 </div>
 ```
-
 > Note: Attributes will be sorted by name.
+
+##### Tag Example (in posts):
+
+```
+{% maxcdn /path/to/image.gif width=100px height=100px style='border:1px' %}
+```
+> Note: no quotes on path.
+
+Outputs:
+``` html
+<img src="//you.maxcdn.com/path/to/image.gif" height='100px' style="border:1px;" width="100px" />
+```
 
 Supported extensions:
 ``` text

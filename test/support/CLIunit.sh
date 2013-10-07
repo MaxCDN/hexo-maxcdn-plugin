@@ -127,7 +127,6 @@ function refute_grep {
 function assert_file {
   file=$1 # file to check
   msg=$2  # what to say on fail
-
   test -f $file 2>&1 > /dev/null
   process "$?" "$msg"
 }
