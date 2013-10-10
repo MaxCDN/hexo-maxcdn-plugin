@@ -64,6 +64,12 @@ describe('maxcdn-maxcdn', function () {
                 assert.equal(maxcdn.fetch.source(), '//you.maxcdn.com');
                 done();
             });
+            it('returns empty when environment is not enabled', function (done) {
+                process.env.NODE_ENV = 'badenv';
+                assert.equal(maxcdn.fetch.source(), '');
+                process.env.NODE_ENV = 'test';
+                done();
+            });
             it('throws error if config is undefined', function (done) {
                 var domain = maxcdn.config.domain;
                 maxcdn.config.domain = undefined;
