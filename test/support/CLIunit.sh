@@ -46,6 +46,16 @@
 #
 ################################################################################
 
+# Colors
+
+if ! test "$NO_COLORS"; then
+  red='\e[0;31m'
+  yellow='\e[1;33m'
+  green='\e[1;32m'
+  blue='\e[1;34m'
+  NC='\e[0m'
+fi
+
 # Progress Variables
 passed=0
 failed=0
@@ -67,6 +77,7 @@ function refute {
   msg=$2 # what to say on fail
 
   $cmd 2>&1 > /dev/null
+  [ "$?" -ne "0" ]
   process "$?" "$msg"
 }
 
@@ -127,6 +138,7 @@ function refute_grep {
 function assert_file {
   file=$1 # file to check
   msg=$2  # what to say on fail
+
   test -f $file 2>&1 > /dev/null
   process "$?" "$msg"
 }
@@ -136,6 +148,7 @@ function refute_file {
   msg=$2  # what to say on fail
 
   test -f $file 2>&1 > /dev/null
+  [ "$?" -ne "0" ]
   process "$?" "$msg"
 }
 
@@ -143,7 +156,7 @@ function assert_dir {
   dir=$1 # dir to check
   msg=$2  # what to say on fail
 
-  test -f $dir 2>&1 > /dev/null
+  test -d $dir 2>&1 > /dev/null
   process "$?" "$msg"
 }
 
@@ -151,7 +164,8 @@ function refute_dir {
   dir=$1 # dir to check
   msg=$2  # what to say on fail
 
-  test -f $dir 2>&1 > /dev/null
+  test -d $dir 2>&1 > /dev/null
+  [ "$?" -ne "0" ]
   process "$?" "$msg"
 }
 
@@ -169,12 +183,12 @@ function process {
   fi
 }
 function do_pass {
-  echo -n "."
+  echo -ne "${green}.${NC}"
   passed=`expr $passed + 1`
 }
 
 function do_fail {
-  echo -n "x"
+  echo -ne "${red}x${NC}"
   failed=`expr $failed + 1`
   failures+="$failed] $1\n"
 }
@@ -183,13 +197,13 @@ function finish {
   echo " "
   echo " "
 
-  echo "Total: `expr $passed + $failed`, Passed: $passed, Failed: $failed, Duration: ${SECONDS}sec"
+  echo -e "${yellow}Total: `expr $passed + $failed`${NC} ${green}Passed: $passed${NC} ${red}Failed: $failed${NC} ${blue}Duration: ${SECONDS} Seconds${NC}"
 
   if [ "$failed" -ne "0" ]; then
     echo " "
     echo "Failures: "
     echo " "
-    echo -e $failures
+    echo -e "${red}$failures${NC}"
   fi
   echo " "
 }

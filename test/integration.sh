@@ -2,62 +2,32 @@
 
 WORKING_DIR="$(pwd)"
 
-function message() {
-  echo " $1 "
-}
-
-function header() {
-  echo " "
-  echo "###########################################"
-  message "$1"
-  echo "###########################################"
-  echo " "
-}
-
-function subheader() {
-  echo " "
-  message "$1"
-  echo "-------------------------------------------"
-}
-
-header "Initializing Integration Environment"
-
-message "Creating clean tmp directory."
+# setup
+##
 test -d /tmp/hexo-maxcdn-integration && rm -rf /tmp/hexo-maxcdn-integration
 mkdir /tmp/hexo-maxcdn-integration
 cd /tmp/hexo-maxcdn-integration
-
-echo "{ }" > package.json
-
-subheader "Install hexo."
-npm install hexo --save
-
-subheader "Generating test_blog."
-./node_modules/.bin/hexo init test_blog --debug
-cd test_blog
-
-subheader "Install hexo-maxcdn-plugin."
-npm install $WORKING_DIR --save
-
-subheader "Copying test template."
-cp -v $WORKING_DIR/test/support/after_footer.ejs themes/light/layout/_partial/
-
-subheader "Copying test post"
-cp -v $WORKING_DIR/test/support/hello-world.md source/_posts/
-
-subheader "Copying test configuration."
-cp -v $WORKING_DIR/test/support/_maxcdn.yml .
-
-subheader "Running hexo generate."
-../node_modules/.bin/hexo generate --debug
-
-header "Running Test Suite"
+#echo "{ }" > package.json
 
 function run_tests {
-  # `assert_file` periodically fails (opened: https://github.com/jmervine/CLIunit/issues/3),
-  # commenting this out as all other tests will fail if the generator fails
-  #
-  #assert_file "/tmp/hexo-maxcdn-integration/test_blog/_maxcdn.yml", "generator failed"
+  assert "npm install hexo --silent" "hexo install failed"
+  assert "./node_modules/.bin/hexo init test_blog" "hexo init failed"
+  assert_dir "test_blog" "hexo init failed"
+  cd test_blog
+
+  assert "npm install $WORKING_DIR --silent" "maxcdn plugin install failed"
+
+  cp $WORKING_DIR/test/support/after_footer.ejs themes/light/layout/_partial/
+  cp $WORKING_DIR/test/support/hello-world.md source/_posts/
+  cp $WORKING_DIR/test/support/_maxcdn.yml .
+  assert_file "_maxcdn.yml" \
+                "failed to copy _maxcdn.yml"
+
+  export NODE_ENV=test
+
+  assert "../node_modules/.bin/hexo generate" "hexo generation failed"
+
+  unset NODE_ENV
 
   COMMAND="cat /tmp/hexo-maxcdn-integration/test_blog/public/2013/10/06/hello-world/index.html"
 
@@ -99,3 +69,4 @@ function run_tests {
 
 source $WORKING_DIR/test/support/CLIunit.sh
 
+# vim: ft=sh:

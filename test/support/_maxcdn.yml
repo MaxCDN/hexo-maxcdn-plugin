@@ -1,8 +1,3 @@
 domain: you.maxcdn.com
-
-# enabled: true # for all environments
-enabled: # maps to NODE_ENV
-- production
-- stage
-
+enabled: true
 cachebuster: cachebuster # optional
