@@ -4,10 +4,10 @@ WORKING_DIR="$(pwd)"
 
 # setup
 ##
-test -d /tmp/hexo-maxcdn-integration && rm -rf /tmp/hexo-maxcdn-integration
-mkdir /tmp/hexo-maxcdn-integration
-cd /tmp/hexo-maxcdn-integration
-#echo "{ }" > package.json
+tmp=/tmp/hexo-maxcdn-integration
+test -d $tmp && rm -rf $tmp
+mkdir $tmp
+cd $tmp
 
 function run_tests {
   assert "npm install hexo --silent" "hexo install failed"
