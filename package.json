@@ -1,7 +1,7 @@
 {
   "name": "hexo-maxcdn-plugin",
   "version": "0.0.1",
-  "description": "MaxCDNify your Hexo",
+  "description": "MaxCDNify (http://maxcdn.com) your Hexo",
   "main": "index",
   "scripts": {
     "test": "mocha -s 600 -R spec test/*_test.js",
@@ -9,18 +9,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "ssh://git@bitbucket.org/jmervine/hexo-maxcdn-plugin.git"
+    "url": "https://github.com/MaxCDN/hexo-maxcdn-plugin.git"
   },
   "keywords": [
     "cdn",
     "hexo",
     "maxcdn",
-    "netdna"
+    "netdna",
+    "cdn",
+    "blog"
   ],
   "engines": {
     "hexo": "*"
   },
-  "author": "Joshua Mervine <joshua@mervine.net> (http://www.maxcdn.com/)",
+  "author": "Joshua Mervine <joshua@mervine.net> (http://mervine.net/)",
   "license": "MIT",
   "dependencies": {
     "js-yaml": "~2.1.1"
