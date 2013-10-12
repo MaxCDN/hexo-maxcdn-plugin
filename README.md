@@ -1,4 +1,4 @@
-# hexo-maxcdn-plugin
+# hexo-maxcdn-plugin  [![Build Status](https://travis-ci.org/MaxCDN/hexo-maxcdn-plugin.png?branch=master)](https://travis-ci.org/MaxCDN/hexo-maxcdn-plugin)
 
 ### Install
 
