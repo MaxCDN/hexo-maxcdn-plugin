@@ -12,7 +12,7 @@ function before {
 }
 
 function after {
-  echo "Cleanup:"
+  echo -e "\n\nCleanup:"
   echo " > removing $tmp"
   rm -rf $tmp
 }
@@ -76,7 +76,5 @@ function run_tests {
   assert_grep "$COMMAND" "<img.*/tag-with-attrs\.gif.*zsecond='2'" "tag with attrs failed on single quote"
   assert_grep "$COMMAND" "<img.*/tag-with-attrs\.gif.*zthrid='3'" "tag with attrs failed on double quote"
 }
-
-source $WORKING_DIR/test/support/CLIunit.sh
 
 # vim: ft=sh:
