@@ -155,10 +155,17 @@ svg   adds   type=image/svg+xml
 
 ### Development
 
-##### Running Units
+#### Tests
 
 ```
 npm test
+```
+
+
+##### Running Units
+
+```
+npm run unit
 ```
 
 ##### Running Integration
