@@ -4,7 +4,8 @@
   "description": "MaxCDNify (http://maxcdn.com) your Hexo",
   "main": "index",
   "scripts": {
-    "test": "mocha -s 600 -R spec test/*_test.js",
+    "test": "mocha -s 600 -R spec test/*_test.js && bash ./test/integration.sh",
+    "unit": "mocha -s 600 -R spec test/*_test.js",
     "integration": "bash ./test/integration.sh"
   },
   "repository": {

@@ -4,11 +4,21 @@ WORKING_DIR="$(pwd)"
 
 # setup
 ##
-tmp=/tmp/hexo-maxcdn-integration
-test -d $tmp && rm -rf $tmp
-mkdir $tmp
-cd $tmp
+function before {
+  echo "Setup:"
+  tmp=$(mktemp -d /tmp/hexo-maxcdn.XXXXX)
+  echo " > creating $tmp"
+  cd $tmp
+}
 
+function after {
+  echo "Cleanup:"
+  echo " > removing $tmp"
+  rm -rf $tmp
+}
+
+# tests
+##
 function run_tests {
   assert "npm install hexo --silent" "hexo install failed"
   assert "./node_modules/.bin/hexo init test_blog" "hexo init failed"
@@ -29,7 +39,7 @@ function run_tests {
 
   unset NODE_ENV
 
-  COMMAND="cat /tmp/hexo-maxcdn-integration/test_blog/public/2013/10/06/hello-world/index.html"
+  COMMAND="cat $tmp/test_blog/public/2013/10/06/hello-world/index.html"
 
   # helper tests
   assert_grep "$COMMAND" "<link.*\/\/you\.maxcdn\.com\/helper\.css.*stylesheet" "helper: css failed"
