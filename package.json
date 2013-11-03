@@ -4,9 +4,9 @@
   "description": "MaxCDNify (http://maxcdn.com) your Hexo",
   "main": "index",
   "scripts": {
-    "test": "mocha -s 600 -R spec test/*_test.js && ./test/support/CLIunit.sh ./test/integration.sh",
+    "test": "mocha -s 600 -R spec test/*_test.js && ./test/support/shunt.sh ./test/integration.sh",
     "unit": "mocha -s 600 -R spec test/*_test.js",
-    "integration": "./test/support/CLIunit.sh ./test/integration.sh"
+    "integration": "./test/support/shunt.sh --verbose ./test/integration.sh"
   },
   "repository": {
     "type": "git",
